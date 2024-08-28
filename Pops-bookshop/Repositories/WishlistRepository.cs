@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Pops_bookshop.Areas.Identity.Data;
 using Pops_bookshop.Exceptions;
+using Pops_bookshop.Models.Entities;
 using Pops_bookshop.Repositories.Interfaces;
 
 namespace Pops_bookshop.Repositories
@@ -30,8 +31,22 @@ namespace Pops_bookshop.Repositories
             {
                 throw new DatabaseException();
             }
+        }
 
+        public async Task<List<Book>> GetWishedBooksAsync(string userId)
+        {
+            try
+            {
+                List<Book> books = await _context.Books
+                                .Where(b => b.UsersWishlist.Any(w => w.UserId == userId))
+                                .ToListAsync();
 
+                return books;
+            }
+            catch (SqlException)
+            {
+                throw new DatabaseException();
+            }
         }
     }
 }

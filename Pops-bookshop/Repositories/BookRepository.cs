@@ -24,6 +24,7 @@ namespace Pops_bookshop.Repositories
                 List<Book> books = await _context.Books
                 .Include(b => b.Authors)
                 .Include(b => b.Categories)
+                .Include(b => b.UsersWishlist)
                 .ToListAsync();
 
                 return books;

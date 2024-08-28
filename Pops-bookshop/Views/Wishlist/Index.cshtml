@@ -1,21 +1,11 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Pops_bookshop.Models.Entities
-@model List<Book>
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+﻿@using Pops_bookshop.Models.Entities
+@model List<Pops_bookshop.Models.Entities.Book>
 
 @{
-    ViewData["Title"] = "Library";
-
-    bool isBookInWishList(Book book)
-    {
-        return book.UsersWishlist.Any(w => w.BookId == book.Id);
-    }
+    ViewData["Title"] = "My wishlist";
 }
 
-<h1>Books available</h1>
-<hr />
+<h1>My wishlist</h1>
 
 @if (Model is not null && Model.Count() > 0)
 {
@@ -23,19 +13,6 @@
     {
         <div class="presentation-flex">
             <div>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    @if (isBookInWishList(book))
-                    {
-                        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = book.Id })">heart_check</a>
-                        <span>Remove this book from my wishlist</span>
-                    }
-                    else
-                    {
-                        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = book.Id })">favorite</a>
-                        <span>Add this book to my wishlist</span>
-                    }
-                }
                 <h2>
                     <a href="@Url.ActionLink("Details", "Book", new { bookId = book.Id })">
                         @book.Title
@@ -104,6 +81,6 @@
 else
 {
     <div class="card-body">
-        <p class="card-text">No book is currently available in our library.</p>
+        <p class="card-text">You have no book in your wishlist.</p>
     </div>
 }

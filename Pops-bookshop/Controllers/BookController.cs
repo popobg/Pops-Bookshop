@@ -13,14 +13,14 @@ namespace Pops_bookshop.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBookService _bookService;
-        private readonly IWishlistService _WishlistService;
+        private readonly IWishlistService _wishlistService;
 
         public BookController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBookService bookService, IWishlistService wishlistService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _bookService = bookService;
-            _WishlistService = wishlistService;
+            _wishlistService = wishlistService;
         }
 
         // GET: BookController
@@ -55,7 +55,7 @@ namespace Pops_bookshop.Controllers
 
                     if (userId == null) throw new NullException();
 
-                    ViewBag.IsInWishList = await _WishlistService.IsBookInUserWishlistAsync(bookId, userId);
+                    ViewBag.IsInWishList = await _wishlistService.IsBookInUserWishlistAsync(bookId, userId);
                 }
 
                 return View(book);
