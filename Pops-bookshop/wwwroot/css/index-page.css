@@ -1,0 +1,15 @@
+﻿.presentation-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    margin: 1em;
+}
+
+.book-cover-image {
+    border-radius: 10%;
+    max-width: 20em;
+    object-fit: cover;
+}

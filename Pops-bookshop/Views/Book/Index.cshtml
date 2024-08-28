@@ -1,0 +1,78 @@
+﻿@using Pops_bookshop.Models.Entities
+@model List<Book>
+@{
+    ViewData["Title"] = "Library";
+}
+
+<h1>Our books</h1>
+<hr />
+
+@if (Model is not null && Model.Count() > 0)
+{
+    @* Eventuellement ajouté une petite étoile si l'utilisateur est connecté et le livre est en favoris *@
+    foreach (Book book in Model)
+    {
+        <div class="presentation-flex">
+            <div>
+                <h2>@book.Title</h2> <a class="group-settings-button material-symbols-outlined" href="@Url.ActionLink("BookController", "Details", new { bookId = book.Id})">info</a>
+                <p>Description: @book.Description</p>
+                <p>Price: @book.Price€</p>
+                <p>ISBN: @book.ISBN</p>
+                @if (book.Authors is not null && book.Authors.Count() > 0)
+                {
+                    <p>Authors:
+                        @foreach (Author author in book.Authors)
+                        {
+                        @if (author == book.Authors.Last())
+                            @author.Name
+                        else
+                        {
+                            @author.Name
+
+                            <span>,</span>
+                        }
+                        }
+                    </p>
+                }
+                else
+                {
+                    <p>No author given</p>
+                }
+                @if (book.Categories is not null && book.Categories.Count() > 0)
+                {
+                    <p>Categories:
+                        @foreach (Category genre in book.Categories)
+                        {
+                            @if (genre == book.Categories.Last())
+                                @genre.Name
+                            else
+                            {
+                                @genre.Name
+
+                                <span>,</span>
+                            }
+                        }
+                    </p> 
+                }
+            </div>
+
+            <div>
+                @if (book.CoverImageUrl != null)
+                {
+                    <img src=@book.CoverImageUrl alt="[book cover]" class="book-cover-image" />
+                }
+                else
+                {
+                    <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
+                }
+            </div>
+        </div>
+        <hr />
+    }
+}
+else
+{
+    <div class="card-body">
+        <p class="card-text">No book is currently available in our library.</p>
+    </div>
+}

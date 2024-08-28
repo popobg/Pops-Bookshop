@@ -1,0 +1,72 @@
+﻿@using Pops_bookshop.Models.Entities
+@model Pops_bookshop.Models.Entities.Book
+
+@{
+    ViewData["Title"] = "About " + Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<div>
+    <p>
+        @foreach (Author author in Model.Authors)
+        {
+            @if (author == Model.Authors.Last())
+                @author.Name
+            else
+            {
+                @author.Name
+
+                <span>,</span>
+            }
+        }
+    </p>
+    <p>
+        @foreach (Category genre in Model.Categories)
+        {
+            @if (genre == Model.Categories.Last())
+                @genre.Name
+            else
+            {
+                @genre.Name
+
+                <span>,</span>
+            }
+        }
+    </p>
+    <p>@Model.Description</p>
+</div>
+<div>
+    @if (Model.CoverImageUrl != null)
+    {
+        <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
+    }
+    else
+    {
+        <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
+    }
+</div>
+<p>@Model.Price</p>
+<p>@Model.ISBN</p>
+
+<h2>Reviews</h2>
+@if (Model.Reviews != null && Model.Reviews.Count() > 0)
+{
+    foreach (Review review in Model.Reviews)
+    {
+        <div>
+            @if (review.Reviewer != null)
+            {
+                <p>@review.Reviewer.Firstname</p>
+            }
+            else
+            {
+                <p>Ancien membre</p>
+            }
+            <p>Date: @review.ReviewDate</p>
+
+            <p>Rating: @review.Rating / 5</p>
+            <p>Comment: @review.Comment</p>
+
+        </div>
+    }
+}

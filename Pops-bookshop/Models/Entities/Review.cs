@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
         public DateTime ReviewDate { get; set; }
-        public int rating { get; set; }
-        public string comment { get; set; } = string.Empty;
-        public string ReviewerId { get; set; }
+        public int Rating { get; set; }
+        public string Comment { get; set; } = string.Empty;
+        public string ReviewerId { get; set; } = string.Empty;
         public ApplicationUser? Reviewer { get; set; }
         public int BookId { get; set; }
         public Book? BookReviewed { get; set; }

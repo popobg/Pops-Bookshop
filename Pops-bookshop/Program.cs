@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Pops_bookshop.Models.Entities;
 using Pops_bookshop.Areas.Identity.Data;
+using Pops_bookshop.Repositories.Interfaces;
+using Pops_bookshop.Repositories;
+using Pops_bookshop.Services;
+using Pops_bookshop.Services.Interfaces;
 
 namespace Pops_bookshop
 {
@@ -22,6 +26,9 @@ namespace Pops_bookshop
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRazorPages();
+
+            builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IBookRepository, BookRepository>();
 
             var app = builder.Build();
 
