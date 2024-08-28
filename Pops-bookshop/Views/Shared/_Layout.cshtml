@@ -22,13 +22,21 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Our books</a>
-                        </li>
+                <div class="navbar-collapse collapse navbar-flex">
+                    <div>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Our books</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Wishlist" asp-action="Index">My wishlist</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div>
                         <partial name="_LoginPartial">
-                    </ul>
+                    </div>
                 </div>
             </div>
         </nav>

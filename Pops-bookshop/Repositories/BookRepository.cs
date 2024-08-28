@@ -33,5 +33,24 @@ namespace Pops_bookshop.Repositories
                 throw new DatabaseException();
             }
         }
+
+        public async Task<Book?> GetBookByIdAsync(int bookId)
+        {
+            try
+            {
+                Book? book = await _context.Books
+                    .Include(b => b.Authors)
+                    .Include(b => b.Categories)
+                    .Include(b => b.Reviews)
+                    .Include(b => b.UsersWishlist)
+                    .FirstOrDefaultAsync(b => b.Id == bookId);
+
+                return book;
+            }
+            catch (SqlException)
+            {
+                throw new DatabaseException();
+            }
+        }
     }
 }

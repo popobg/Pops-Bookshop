@@ -29,6 +29,9 @@ namespace Pops_bookshop
 
             builder.Services.AddScoped<IBookService, BookService>();
             builder.Services.AddScoped<IBookRepository, BookRepository>();
+            builder.Services.AddScoped<IWishlistService, WishlistService>();
+            builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
+
 
             var app = builder.Build();
 

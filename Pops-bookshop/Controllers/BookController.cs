@@ -10,13 +10,17 @@ namespace Pops_bookshop.Controllers
 {
     public class BookController : Controller
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBookService _bookService;
+        private readonly IWishlistService _WishlistService;
 
-        public BookController(UserManager<ApplicationUser> userManager, IBookService bookService)
+        public BookController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IBookService bookService, IWishlistService wishlistService)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
             _bookService = bookService;
+            _WishlistService = wishlistService;
         }
 
         // GET: BookController
@@ -35,15 +39,32 @@ namespace Pops_bookshop.Controllers
         }
 
         // GET: BookController/Details/5
-        public ActionResult Details(int bookId)
+        public async Task<ActionResult> Details(int bookId)
         {
             try
             {
-                Book book = await _bookService.GetBookByIdAsync(bookId);
+                Book? book = await _bookService.GetBookByIdAsync(bookId);
+
+                if (book == null) throw new NullException();
+
+                ViewBag.IsInWishList = null;
+
+                if (_signInManager.IsSignedIn(User))
+                {
+                    string? userId = _userManager.GetUserId(User);
+
+                    if (userId == null) throw new NullException();
+
+                    ViewBag.IsInWishList = await _WishlistService.IsBookInUserWishlistAsync(bookId, userId);
+                }
 
                 return View(book);
             }
             catch (DatabaseException ex)
+            {
+                return RedirectToAction("Exception", "Home", new { message = ex.Message });
+            }
+            catch (NullException ex)
             {
                 return RedirectToAction("Exception", "Home", new { message = ex.Message });
             }

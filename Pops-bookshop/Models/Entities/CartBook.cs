@@ -1,5 +1,6 @@
 ﻿namespace Pops_bookshop.Models.Entities
 {
+    // Join table between Book and User
     public class CartBook
     {
         public int Id { get; set; }
