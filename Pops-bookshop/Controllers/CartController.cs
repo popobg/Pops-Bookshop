@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Pops_bookshop.enumerableClass;
@@ -9,19 +8,20 @@ using Pops_bookshop.Services.Interfaces;
 
 namespace Pops_bookshop.Controllers
 {
-    [Authorize]
-    public class WishlistController : Controller
+    public class CartController : Controller
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IWishlistService _wishlistService;
+        private readonly ICartService _cartService;
 
-        public WishlistController(UserManager<ApplicationUser> userManager, IWishlistService wishlistService)
+        public CartController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ICartService cartService)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
-            _wishlistService = wishlistService;
+            _cartService = cartService;
         }
 
-        // GET: WishlistController
+        // GET: CartController
         public async Task<ActionResult> Index()
         {
             try
@@ -30,7 +30,7 @@ namespace Pops_bookshop.Controllers
 
                 if (userId == null) throw new NullException();
 
-                List<Book> books = await _wishlistService.GetWishedBooksAsync(userId);
+                List<Book> books = await _cartService.GetCartAsync(userId);
 
                 return View(books);
             }
@@ -44,7 +44,7 @@ namespace Pops_bookshop.Controllers
             }
         }
 
-        // GET: WishlistController/Add
+        // GET: CartController/Add
         public async Task<ActionResult> Add(int bookId, int redirectTo)
         {
             try
@@ -53,7 +53,7 @@ namespace Pops_bookshop.Controllers
 
                 if (user == null) throw new NullException();
 
-                await _wishlistService.AddBookToWishlistAsync(bookId, user);
+                await _cartService.AddToCartAsync(bookId, user);
 
                 switch (redirectTo)
                 {
@@ -83,7 +83,7 @@ namespace Pops_bookshop.Controllers
             }
         }
 
-        // GET: WishlistController/Remove
+        // GET: CartController/Remove
         public async Task<ActionResult> Remove(int bookId, int redirectTo)
         {
             try
@@ -92,7 +92,7 @@ namespace Pops_bookshop.Controllers
 
                 if (user == null) throw new NullException();
 
-                await _wishlistService.RemoveBookFromWishlistAsync(bookId, user);
+                await _cartService.RemoveFromCartAsync(bookId, user);
 
                 switch (redirectTo)
                 {

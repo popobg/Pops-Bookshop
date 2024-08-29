@@ -5,70 +5,68 @@
     ViewBag.Redirection = ViewBag.ToRedirect;
 }
 
-<div class="presentation-flex">
-    <div>
-        @await Html.PartialAsync("_wishedState", Model)
+<div>
+    @await Html.PartialAsync("_WishedState", Model)
+    @await Html.PartialAsync("_CartState", Model)
 
-        <h2>
-            <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id })">
-                @Model.Title
-                <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
-            </a>
-        </h2>
-        <p>Description: @Model.Description</p>
-        <p>Price: @Model.Price€</p>
-        <p>ISBN: @Model.ISBN</p>
-        @if (Model.Authors is not null && Model.Authors.Count() > 0)
-        {
-            <p>
-                Authors:
-                @foreach (Author author in Model.Authors)
+    <h2 class="book-title">
+        <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id })">
+            @Model.Title
+            <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
+        </a>
+    </h2>
+    <p>Description: @Model.Description</p>
+    <p>Price: @Model.Price€</p>
+    <p>ISBN: @Model.ISBN</p>
+    @if (Model.Authors is not null && Model.Authors.Count() > 0)
+    {
+        <p>
+            Authors:
+            @foreach (Author author in Model.Authors)
+            {
+                <span class="book-authors">@author.Name</span>
+                @if (!(author == Model.Authors.Last()))
                 {
-                    @if (author == Model.Authors.Last())
-                        @author.Name
-                    else
-                    {
-                        @author.Name
-
-                        <span>,</span>
-                    }
+                    <span>,</span>
                 }
-            </p>
+            }
+        </p>
+    }
+    else
+    {
+        <p class="book-authors">No author given</p>
+    }
+    @if (Model.Categories is not null && Model.Categories.Count() > 0)
+    {
+        <p>
+            Categories:
+            @foreach (Category genre in Model.Categories)
+            {
+                <span class="book-categories">@genre.Name</span>
+                @if (!(genre == Model.Categories.Last()))
+                {
+                    <span>-</span>
+                }
+            }
+        </p>
+    }
+    else
+    {
+        <p class="book-categories">Category undefined</p>
+    }
+</div>
+
+<div>
+    <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id})">
+        @if (Model.CoverImageUrl != null)
+        {
+            <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
         }
         else
         {
-            <p>No author given</p>
+            <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
         }
-        @if (Model.Categories is not null && Model.Categories.Count() > 0)
-        {
-            <p>
-                Categories:
-                @foreach (Category genre in Model.Categories)
-                {
-                    @if (genre == Model.Categories.Last())
-                        @genre.Name
-                    else
-                    {
-                        @genre.Name
-
-                        <span>,</span>
-                    }
-                }
-            </p>
-        }
-    </div>
-
-    <div>
-        <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id})">
-            @if (Model.CoverImageUrl != null)
-            {
-                <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
-            }
-            else
-            {
-                <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
-            }
-        </a>
-    </div>
+    </a>
 </div>
+
 <hr />

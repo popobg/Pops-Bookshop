@@ -17,7 +17,7 @@
 @if (ToRedirect == 3)
 {
     <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
-    <span>Remove this book from my wishlist</span>
+    <span>Remove from my wishlist</span>
 }
 else
 {
@@ -26,12 +26,12 @@ else
         @if (isBookInWishList())
         {
             <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
-            <span>Remove this book from my wishlist</span>
+            <span>Remove from my wishlist</span>
         }
         else
         {
             <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">favorite</a>
-            <span>Add this book to my wishlist</span>
+            <span>Add to my wishlist</span>
         }
     }
 }

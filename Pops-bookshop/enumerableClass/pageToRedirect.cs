@@ -5,5 +5,6 @@
         BookIndex = 1,
         BookDetails = 2,
         WishlistIndex = 3,
+        CartIndex = 4,
     }
 }

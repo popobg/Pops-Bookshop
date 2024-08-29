@@ -1,0 +1,12 @@
+﻿.search-zone {
+    margin: 2em;
+}
+
+#global-search-bar {
+    width: 20em;
+}
+
+#global-search-bar:focus {
+    width: 50em;
+    transition: all .2s ease-in-out;
+}

@@ -10,11 +10,18 @@
 <h1>Books available</h1>
 <hr />
 
+<div class="search-zone">
+    <h3>Search bar:</h3>
+    <input type="text" id="global-search-bar" placeholder="Retrieve books from its title, author or category" onkeyup="filterBooks()" />
+</div>
+
 @if (Model is not null && Model.Count() > 0)
 {
     foreach (Book book in Model)
     {
-        <partial name="_bookDisplay" model="book" />
+        <div class="book-item presentation-flex">
+            <partial name="_BookDisplay" model="book" />
+        </div>
     }
 }
 else
@@ -22,4 +29,8 @@ else
     <div class="card-body">
         <p class="card-text">No book is currently available in our library.</p>
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/searchBar.js"></script>
 }

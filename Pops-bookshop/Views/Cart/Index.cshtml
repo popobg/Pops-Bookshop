@@ -2,12 +2,12 @@
 @model List<Book>
 
 @{
-    ViewData["Title"] = "My wishlist";
+    ViewData["Title"] = "My cart";
 
-    ViewBag.ToRedirect = 3;
+    ViewBag.ToRedirect = 4;
 }
 
-<h1>My wishlist</h1>
+<h1>My cart</h1>
 
 @if (Model is not null && Model.Count() > 0)
 {
@@ -19,6 +19,6 @@
 else
 {
     <div class="card-body">
-        <p class="card-text">You have no book in your wishlist.</p>
+        <p class="card-text">You have no book in your cart.</p>
     </div>
 }

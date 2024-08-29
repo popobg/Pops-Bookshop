@@ -4,25 +4,24 @@ using Pops_bookshop.Areas.Identity.Data;
 using Pops_bookshop.Exceptions;
 using Pops_bookshop.Models.Entities;
 using Pops_bookshop.Repositories.Interfaces;
-using System.Net;
 
 namespace Pops_bookshop.Repositories
 {
-    public class WishlistRepository : IWishlistRepository
+    public class CartRepository : ICartRepository
     {
         private readonly BookshopDbContext _context;
 
-        public WishlistRepository(BookshopDbContext context)
+        public CartRepository(BookshopDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Book>> GetWishedBooksAsync(string userId)
+        public async Task<List<Book>> GetCartAsync(string userId)
         {
             try
             {
                 List<Book> books = await _context.Books
-                                .Where(b => b.UsersWishlist.Any(w => w.UserId == userId))
+                                .Where(b => b.UsersCart.Any(w => w.UserId == userId))
                                 .ToListAsync();
 
                 return books;
@@ -33,15 +32,28 @@ namespace Pops_bookshop.Repositories
             }
         }
 
-        public async Task AddBookInUserWishlistAsync(Book book, ApplicationUser user)
+        public async Task AddToCartAsync(Book book, ApplicationUser user)
         {
             try
             {
-                // check if book is already in the wishlist
-                if (user.Wishlist.Any(w => w.BookId == book.Id)) return;
+                // Book is already in the wishlist
+                if (user.Cart.Any(w => w.BookId == book.Id)) return;
 
-                // create the wishedBook entity and add it to the join table
-                await CreateWishedBookAsync(book, user);
+                // create the cartBook entity and add it to the join table
+                //await CreateCartBookAsync(book, user);
+
+                CartBook cart = new CartBook()
+                {
+                    UserId = user.Id,
+                    User = user,
+                    BookId = book.Id,
+                    Book = book
+                };
+
+                user.Cart.Add(cart);
+                book.UsersCart.Add(cart);
+
+                await _context.SaveChangesAsync();
             }
             catch (SqlException)
             {
@@ -49,19 +61,19 @@ namespace Pops_bookshop.Repositories
             }
         }
 
-        public async Task RemoveBookFromUserWishlistAsync(Book book, ApplicationUser user)
+        public async Task RemoveFromCartAsync(Book book, ApplicationUser user)
         {
             try
             {
-                if (user.Wishlist.Any(w => w.BookId == book.Id))
+                if (user.Cart.Any(c => c.BookId == book.Id))
                 {
-                    WishedBook? wishedBook = user.Wishlist.Find(w => w.BookId == book.Id);
+                    CartBook? cartBook = user.Cart.Find(w => w.BookId == book.Id);
 
-                    if (wishedBook == null) throw new NullException();
+                    if (cartBook == null) throw new NullException();
 
                     // automatically delete the wishedBook entry
-                    // from the WishedBook join table
-                    user.Wishlist.Remove(wishedBook);
+                    // from the cartBook join table
+                    user.Cart.Remove(cartBook);
 
                     await _context.SaveChangesAsync();
                 }
@@ -76,9 +88,9 @@ namespace Pops_bookshop.Repositories
             }
         }
 
-        private async Task CreateWishedBookAsync(Book book, ApplicationUser user)
+        private async Task CreateCartBookAsync(Book book, ApplicationUser user)
         {
-            WishedBook wishedBook = new WishedBook()
+            CartBook cart = new CartBook()
             {
                 UserId = user.Id,
                 User = user,
@@ -86,7 +98,7 @@ namespace Pops_bookshop.Repositories
                 Book = book
             };
 
-            await _context.WishedBooks.AddAsync(wishedBook);
+            await _context.Carts.AddAsync(cart);
             await _context.SaveChangesAsync();
         }
     }

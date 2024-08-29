@@ -25,6 +25,7 @@ namespace Pops_bookshop.Repositories
                 .Include(b => b.Authors)
                 .Include(b => b.Categories)
                 .Include(b => b.UsersWishlist)
+                .Include(b => b.UsersCart)
                 .ToListAsync();
 
                 return books;
@@ -44,6 +45,7 @@ namespace Pops_bookshop.Repositories
                     .Include(b => b.Categories)
                     .Include(b => b.Reviews)
                     .Include(b => b.UsersWishlist)
+                    .Include(b => b.UsersCart)
                     .FirstOrDefaultAsync(b => b.Id == bookId);
 
                 return book;

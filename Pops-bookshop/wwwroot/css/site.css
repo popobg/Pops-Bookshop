@@ -1,5 +1,7 @@
-@import "index-page.css";
+@import "display-book.css";
 @import "navbar.css";
+@import "cart.css";
+@import "search-bar.css";
 
 html {
   font-size: 14px;
@@ -22,4 +24,8 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.smaller-police {
+    font-size: medium;
 }
