@@ -7,11 +7,16 @@
 
 @{
     ViewData["Title"] = "About " + Model.Title;
+
+    bool isBookInWishList()
+    {
+        return Model.UsersWishlist.Any(w => w.BookId == Model.Id);
+    }
 }
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @if (ViewBag.IsInWishList)
+    @if (isBookInWishList())
     {
         <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id })">heart_check</a>
         <span>Remove this book from my wishlist</span>

@@ -5,7 +5,8 @@ namespace Pops_bookshop.Services.Interfaces
 {
     public interface IWishlistService
     {
-        Task<bool> IsBookInUserWishlistAsync(int bookId, string userId);
         Task<List<Book>> GetWishedBooksAsync(string userId);
+        Task AddBookToWishlistAsync(int bookId, ApplicationUser user);
+        Task RemoveBookFromWishlistAsync(int bookId, ApplicationUser user);
     }
 }

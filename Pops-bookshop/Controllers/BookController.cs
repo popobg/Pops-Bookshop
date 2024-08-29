@@ -47,17 +47,6 @@ namespace Pops_bookshop.Controllers
 
                 if (book == null) throw new NullException();
 
-                ViewBag.IsInWishList = null;
-
-                if (_signInManager.IsSignedIn(User))
-                {
-                    string? userId = _userManager.GetUserId(User);
-
-                    if (userId == null) throw new NullException();
-
-                    ViewBag.IsInWishList = await _wishlistService.IsBookInUserWishlistAsync(bookId, userId);
-                }
-
                 return View(book);
             }
             catch (DatabaseException ex)

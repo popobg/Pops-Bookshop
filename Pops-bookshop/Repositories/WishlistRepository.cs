@@ -4,6 +4,7 @@ using Pops_bookshop.Areas.Identity.Data;
 using Pops_bookshop.Exceptions;
 using Pops_bookshop.Models.Entities;
 using Pops_bookshop.Repositories.Interfaces;
+using System.Net;
 
 namespace Pops_bookshop.Repositories
 {
@@ -16,23 +17,6 @@ namespace Pops_bookshop.Repositories
             _context = context;
         }
 
-        public async Task<bool> IsBookInUserWishlistAsync(int bookId, string userId)
-        {
-            try
-            {
-                bool IsBookInWishlist = await _context.Users
-                                .Where(u => u.Id == userId)
-                                .Include(u => u.Wishlist)
-                                .AnyAsync(u => u.Wishlist.Any(w => w.BookId == bookId));
-
-                return IsBookInWishlist;
-            }
-            catch (SqlException)
-            {
-                throw new DatabaseException();
-            }
-        }
-
         public async Task<List<Book>> GetWishedBooksAsync(string userId)
         {
             try
@@ -42,6 +26,49 @@ namespace Pops_bookshop.Repositories
                                 .ToListAsync();
 
                 return books;
+            }
+            catch (SqlException)
+            {
+                throw new DatabaseException();
+            }
+        }
+
+        public async Task AddBookInUserWishlistAsync(Book book, ApplicationUser user)
+        {
+            try
+            {
+                // Book is already in the wishlist
+                if (user.Wishlist.Any(w => w.BookId == book.Id)) return;
+
+                WishedBook wishedBook = new WishedBook()
+                {
+                    UserId = user.Id,
+                    User = user,
+                    BookId = book.Id,
+                    Book = book
+                };
+
+                user.Wishlist.Add(wishedBook);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (SqlException)
+            {
+                throw new DatabaseException();
+            }
+        }
+
+        public async Task RemoveBookFromUserWishlistAsync(Book book, ApplicationUser user)
+        {
+            try
+            {
+
+
+                if (user.Wishlist.Any(w => w.BookId == book.Id))
+                {
+                    user.Wishlist.Remove()
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (SqlException)
             {

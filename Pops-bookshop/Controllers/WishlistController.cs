@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Pops_bookshop.enumerableClass;
 using Pops_bookshop.Exceptions;
 using Pops_bookshop.Models.Entities;
-using Pops_bookshop.Services;
 using Pops_bookshop.Services.Interfaces;
 
 namespace Pops_bookshop.Controllers
 {
+    [Authorize]
     public class WishlistController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -20,7 +21,7 @@ namespace Pops_bookshop.Controllers
             _wishlistService = wishlistService;
         }
 
-        // GET: HomeController1
+        // GET: WishlistController
         public async Task<ActionResult> Index()
         {
             try
@@ -43,45 +44,52 @@ namespace Pops_bookshop.Controllers
             }
         }
 
-        // GET: HomeController1/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: HomeController1/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Add(int bookId, int redirectTo)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ApplicationUser? user = await _userManager.GetUserAsync(User);
+
+                if (user == null) throw new NullException();
+
+                await _wishlistService.AddBookToWishlistAsync(bookId, user);
+
+                switch (redirectTo)
+                {
+                    case (int)pageToRedirect.BookIndex:
+                        return RedirectToAction("Index", "Book");
+
+                    case (int)pageToRedirect.BookDetails:
+                        return RedirectToAction("Details", "Book", new { bookId });
+
+                    default:
+                        return RedirectToAction("Index", "Home");
+                }
             }
-            catch
+            catch (SqlException ex)
             {
-                return View();
+                return RedirectToAction("Exception", "Home", new { message = ex.Message });
+            }
+            catch (NullException ex)
+            {
+                return RedirectToAction("Exception", "Home", new { message = ex.Message });
             }
         }
 
-        // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: HomeController1/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int bookId, int redirectTo)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+
                 return View();
+            }
+            catch (SqlException ex)
+            {
+                return RedirectToAction("Exception", "Home", new { message = ex.Message });
+            }
+            catch (NullException ex)
+            {
+                return RedirectToAction("Exception", "Home", new { message = ex.Message });
             }
         }
     }
