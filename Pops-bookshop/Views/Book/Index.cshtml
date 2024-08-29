@@ -1,17 +1,10 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Pops_bookshop.Models.Entities
+﻿@using Pops_bookshop.Models.Entities
 @model List<Book>
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Library";
 
-    bool isBookInWishList(Book book)
-    {
-        return book.UsersWishlist.Any(w => w.BookId == book.Id);
-    }
+    ViewBag.ToRedirect = 1;
 }
 
 <h1>Books available</h1>
@@ -21,84 +14,7 @@
 {
     foreach (Book book in Model)
     {
-        <div class="presentation-flex">
-            <div>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    @if (isBookInWishList(book))
-                    {
-                        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = book.Id, redirectTo = 1 })">heart_check</a>
-                        <span>Remove this book from my wishlist</span>
-                    }
-                    else
-                    {
-                        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = book.Id, redirectTo = 1 })">favorite</a>
-                        <span>Add this book to my wishlist</span>
-                    }
-                }
-                <h2>
-                    <a href="@Url.ActionLink("Details", "Book", new { bookId = book.Id })">
-                        @book.Title
-                        <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
-                    </a>
-                </h2>
-                <p>Description: @book.Description</p>
-                <p>Price: @book.Price€</p>
-                <p>ISBN: @book.ISBN</p>
-                @if (book.Authors is not null && book.Authors.Count() > 0)
-                {
-                    <p>
-                        Authors:
-                        @foreach (Author author in book.Authors)
-                        {
-                            @if (author == book.Authors.Last())
-                                @author.Name
-                            else
-                            {
-                                @author.Name
-
-                                <span>,</span>
-                            }
-                        }
-                    </p>
-                }
-                else
-                {
-                    <p>No author given</p>
-                }
-                @if (book.Categories is not null && book.Categories.Count() > 0)
-                {
-                    <p>
-                        Categories:
-                        @foreach (Category genre in book.Categories)
-                        {
-                            @if (genre == book.Categories.Last())
-                                @genre.Name
-                            else
-                            {
-                                @genre.Name
-
-                                <span>,</span>
-                            }
-                        }
-                    </p>
-                }
-            </div>
-
-            <div>
-                <a href="@Url.ActionLink("Details", "Book", new { bookId = book.Id})">
-                    @if (book.CoverImageUrl != null)
-                    {
-                        <img src=@book.CoverImageUrl alt="[book cover]" class="book-cover-image" />
-                    }
-                    else
-                    {
-                        <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
-                    }
-                </a>
-            </div>
-        </div>
-        <hr />
+        <partial name="_bookDisplay" model="book" />
     }
 }
 else

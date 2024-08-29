@@ -1,75 +1,14 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Pops_bookshop.Models.Entities
+﻿@using Pops_bookshop.Models.Entities
 @model Pops_bookshop.Models.Entities.Book
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "About " + Model.Title;
 
-    bool isBookInWishList()
-    {
-        return Model.UsersWishlist.Any(w => w.BookId == Model.Id);
-    }
+    ViewBag.ToRedirect = 2;
 }
 
-@if (SignInManager.IsSignedIn(User))
-{
-    @if (isBookInWishList())
-    {
-        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = 2 })">heart_check</a>
-        <span>Remove this book from my wishlist</span>
-    }
-    else
-    {
-        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id, redirectTo = 2 })">favorite</a>
-        <span>Add this book to my wishlist</span>
-    }
-}
+<partial name="_bookDisplay" model="Model" />
 
-<h2>@Model.Title</h2>
-<div>
-    <p>
-        @foreach (Author author in Model.Authors)
-        {
-            @if (author == Model.Authors.Last())
-                @author.Name
-            else
-            {
-                @author.Name
-
-                <span>,</span>
-            }
-        }
-    </p>
-    <p>
-        @foreach (Category genre in Model.Categories)
-        {
-            @if (genre == Model.Categories.Last())
-                @genre.Name
-            else
-            {
-                @genre.Name<span>,</span>
-            }
-        }
-    </p>
-    <p>@Model.Description</p>
-</div>
-<div>
-    @if (Model.CoverImageUrl != null)
-    {
-        <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
-    }
-    else
-    {
-        <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
-    }
-</div>
-<p>Price: @Model.Price€</p>
-<p>ISBN: @Model.ISBN</p>
-
-<hr />
 <h3>Reviews</h3>
 @if (Model.Reviews != null && Model.Reviews.Count() > 0)
 {

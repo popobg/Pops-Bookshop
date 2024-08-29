@@ -1,0 +1,74 @@
+﻿@using Pops_bookshop.Models.Entities
+@model Book
+
+@{
+    ViewBag.Redirection = ViewBag.ToRedirect;
+}
+
+<div class="presentation-flex">
+    <div>
+        @await Html.PartialAsync("_wishedState", Model)
+
+        <h2>
+            <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id })">
+                @Model.Title
+                <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
+            </a>
+        </h2>
+        <p>Description: @Model.Description</p>
+        <p>Price: @Model.Price€</p>
+        <p>ISBN: @Model.ISBN</p>
+        @if (Model.Authors is not null && Model.Authors.Count() > 0)
+        {
+            <p>
+                Authors:
+                @foreach (Author author in Model.Authors)
+                {
+                    @if (author == Model.Authors.Last())
+                        @author.Name
+                    else
+                    {
+                        @author.Name
+
+                        <span>,</span>
+                    }
+                }
+            </p>
+        }
+        else
+        {
+            <p>No author given</p>
+        }
+        @if (Model.Categories is not null && Model.Categories.Count() > 0)
+        {
+            <p>
+                Categories:
+                @foreach (Category genre in Model.Categories)
+                {
+                    @if (genre == Model.Categories.Last())
+                        @genre.Name
+                    else
+                    {
+                        @genre.Name
+
+                        <span>,</span>
+                    }
+                }
+            </p>
+        }
+    </div>
+
+    <div>
+        <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id})">
+            @if (Model.CoverImageUrl != null)
+            {
+                <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
+            }
+            else
+            {
+                <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
+            }
+        </a>
+    </div>
+</div>
+<hr />
