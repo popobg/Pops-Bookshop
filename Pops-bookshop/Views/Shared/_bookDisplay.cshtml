@@ -9,9 +9,9 @@
     @await Html.PartialAsync("_WishedState", Model)
     @await Html.PartialAsync("_CartState", Model)
 
-    <h2 class="book-title">
+    <h2>
         <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id })">
-            @Model.Title
+            <span class="book-title">@Model.Title</span>
             <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
         </a>
     </h2>

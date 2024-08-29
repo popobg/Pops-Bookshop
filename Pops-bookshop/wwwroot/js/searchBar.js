@@ -1,35 +1,28 @@
 ﻿function filterBooks() {
     // get the value of the search input bar
     var query = document.getElementById("global-search-bar").value.toLowerCase();
+
     // get all the book divs
     var books = document.querySelectorAll(".book-item");
 
     books.forEach(function (book, index) {
         let title = book.querySelector(".book-title").textContent.toLowerCase();
 
-        title = CustomisedTrim(title);
+        let authorsDivs = book.querySelectorAll(".book-authors");
+        let authors = [...authorsDivs].map(e => e.textContent);
 
-        let authors = book.querySelector(".book-authors").textContent.toLowerCase();
-
-        //let authors = CustomisedTrim(authors);
-
-        if (authors === "No author given") {
+        if (authors[0] === "No author given") {
             authors = "";
         }
 
-        let categories = book.querySelector(".book-categories").textContent.toLowerCase();
+        let categoriesDivs = book.querySelectorAll(".book-categories");
+        let categories = [...categoriesDivs].map(e => e.textContent);
 
-        //let categories = CustomisedTrim(categories);
-
-        if (categories === "Category undefined") {
+        if (categories[0] === "Category undefined") {
             categories = "";
         }
 
-        let titleIncludes = title.includes(query);
-        let authorsInclude = authors.includes(query);
-        let categoriesInclude = categories.includes(query);
-
-        if (!title.includes(query) && !authors.includes(query) && !categories.includes(query)) {
+        if (!title.includes(query) && !isQueryInList(query, authors) && !isQueryInList(query, categories)) {
             book.style.display = "none";
         }
         else {
@@ -38,19 +31,11 @@
     });
 }
 
-function CustomisedTrim(str) {
-    let splitStr = str.split(/[\s,\n ]/);
-    let splitStrNoEmpty = "";
-
-    for (let i = 0; i < splitStr.length; i++) {
-        if (splitStr[i] !== "") {
-            splitStrNoEmpty += splitStr[i] + " ";
+function isQueryInList(query, list) {
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].toLowerCase().includes(query)) {
+            return true;
         }
     }
-
-    if (splitStrNoEmpty.endsWith('info ')) {
-        str = splitStrNoEmpty.slice(0, -6);
-    }
-
-    return str
+    return false;
 }

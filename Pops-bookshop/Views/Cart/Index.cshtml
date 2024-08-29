@@ -5,6 +5,13 @@
     ViewData["Title"] = "My cart";
 
     ViewBag.ToRedirect = 4;
+
+    double totalPrice = 0;
+
+    foreach (Book book in Model)
+    {
+        totalPrice += book.Price;
+    }
 }
 
 <h1>My cart</h1>
@@ -15,6 +22,8 @@
     {
         <partial name="_BookDisplay" model="book" />
     }
+
+    <h3>Cart's total: @totalPrice€</h3>
 }
 else
 {
