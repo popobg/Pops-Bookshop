@@ -13,6 +13,11 @@
     {
         <div class="presentation-flex">
             <div>
+                <div>
+                    <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = book.Id, redirectTo = 3 })">heart_check</a>
+                    <span>Remove this book from my wishlist</span>
+                </div>
+                
                 <h2>
                     <a href="@Url.ActionLink("Details", "Book", new { bookId = book.Id })">
                         @book.Title

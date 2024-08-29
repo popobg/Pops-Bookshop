@@ -15,6 +15,8 @@ namespace Pops_bookshop.Areas.Identity.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<WishedBook> WishedBooks { get; set; }
+        public DbSet<CartBook> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

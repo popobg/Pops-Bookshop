@@ -48,9 +48,8 @@ namespace Pops_bookshop.Repositories
                     Book = book
                 };
 
-                user.Wishlist.Add(wishedBook);
-
-                await _context.SaveChangesAsync();
+                // create the wishedBook entity and add it to the join table
+                await CreateWishedBookAsync(book, user);
             }
             catch (SqlException)
             {
@@ -62,11 +61,16 @@ namespace Pops_bookshop.Repositories
         {
             try
             {
-
-
                 if (user.Wishlist.Any(w => w.BookId == book.Id))
                 {
-                    user.Wishlist.Remove()
+                    WishedBook? wishedBook = user.Wishlist.Find(w => w.BookId == book.Id);
+
+                    if (wishedBook == null) throw new NullException();
+
+                    // automatically delete the wishedBook entry
+                    // from the WishedBook join table
+                    user.Wishlist.Remove(wishedBook);
+
                     await _context.SaveChangesAsync();
                 }
             }
@@ -74,6 +78,24 @@ namespace Pops_bookshop.Repositories
             {
                 throw new DatabaseException();
             }
+            catch (NullException)
+            {
+                throw new NullException();
+            }
+        }
+
+        private async Task CreateWishedBookAsync(Book book, ApplicationUser user)
+        {
+            WishedBook wishedBook = new WishedBook()
+            {
+                UserId = user.Id,
+                User = user,
+                BookId = book.Id,
+                Book = book
+            };
+
+            await _context.WishedBooks.AddAsync(wishedBook);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -18,12 +18,12 @@
 {
     @if (isBookInWishList())
     {
-        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id })">heart_check</a>
+        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = 2 })">heart_check</a>
         <span>Remove this book from my wishlist</span>
     }
     else
     {
-        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id })">favorite</a>
+        <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id, redirectTo = 2 })">favorite</a>
         <span>Add this book to my wishlist</span>
     }
 }

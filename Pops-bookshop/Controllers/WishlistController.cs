@@ -62,6 +62,9 @@ namespace Pops_bookshop.Controllers
                     case (int)pageToRedirect.BookDetails:
                         return RedirectToAction("Details", "Book", new { bookId });
 
+                    case (int)pageToRedirect.WishlistIndex:
+                        return RedirectToAction("Index", "Wishlist");
+
                     default:
                         return RedirectToAction("Index", "Home");
                 }
@@ -76,12 +79,30 @@ namespace Pops_bookshop.Controllers
             }
         }
 
-        public async Task<ActionResult> Delete(int bookId, int redirectTo)
+        public async Task<ActionResult> Remove(int bookId, int redirectTo)
         {
             try
             {
+                ApplicationUser? user = await _userManager.GetUserAsync(User);
 
-                return View();
+                if (user == null) throw new NullException();
+
+                await _wishlistService.RemoveBookFromWishlistAsync(bookId, user);
+
+                switch (redirectTo)
+                {
+                    case (int)pageToRedirect.BookIndex:
+                        return RedirectToAction("Index", "Book");
+
+                    case (int)pageToRedirect.BookDetails:
+                        return RedirectToAction("Details", "Book", new { bookId });
+
+                    case (int)pageToRedirect.WishlistIndex:
+                        return RedirectToAction("Index", "Wishlist");
+
+                    default:
+                        return RedirectToAction("Index", "Home");
+                }
             }
             catch (SqlException ex)
             {

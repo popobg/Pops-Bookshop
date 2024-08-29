@@ -2,8 +2,8 @@
 {
     enum pageToRedirect
     {
-        BookIndex,
-        BookDetails,
-        WishlistIndex
+        BookIndex = 1,
+        BookDetails = 2,
+        WishlistIndex = 3,
     }
 }
