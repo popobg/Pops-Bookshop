@@ -7,6 +7,7 @@
     ViewBag.ToRedirect = 2;
 }
 
+<hr class="presentation-line" />
 <partial name="_BookDisplay" model="Model" />
 
 <h3>Reviews</h3>
@@ -14,6 +15,7 @@
 {
     foreach (Review review in Model.Reviews)
     {
+        <hr class="presentation-line" />
         <div>
             @if (review.Reviewer != null)
             {
@@ -27,7 +29,6 @@
 
             <p>Rating: @review.Rating / 5</p>
             <p>Comment: @review.Comment</p>
-
         </div>
     }
 }

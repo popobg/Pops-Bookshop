@@ -20,9 +20,13 @@
 {
     foreach (Book book in Model)
     {
-        <partial name="_BookDisplay" model="book" />
+        <hr class="separation-line" />
+        <div class="presentation-flex">
+            <partial name="_BookDisplay" model="book" />
+        </div>
     }
 
+    <hr class="separation-line" />
     <h3>Cart's total: @totalPrice€</h3>
 }
 else

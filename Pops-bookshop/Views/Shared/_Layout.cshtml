@@ -32,15 +32,15 @@
                     <div>
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Index">Our books</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="ListBooks">Our books</a>
                             </li>
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Wishlist" asp-action="Index">My wishlist</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Wishlist" asp-action="ListWishlist">My wishlist</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">My cart</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="ListCart">My cart</a>
                                 </li>
                             }
                         </ul>

@@ -29,3 +29,7 @@ body {
 .smaller-police {
     font-size: medium;
 }
+
+.separation-line {
+    width: 100%;
+}

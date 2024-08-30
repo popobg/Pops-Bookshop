@@ -22,7 +22,7 @@ namespace Pops_bookshop.Controllers
         }
 
         // GET: CartController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> ListCart()
         {
             try
             {
@@ -58,16 +58,16 @@ namespace Pops_bookshop.Controllers
                 switch (redirectTo)
                 {
                     case (int)pageToRedirect.BookIndex:
-                        return RedirectToAction("Index", "Book");
+                        return RedirectToAction("ListBooks", "Book");
 
                     case (int)pageToRedirect.BookDetails:
-                        return RedirectToAction("Details", "Book", new { bookId });
+                        return RedirectToAction("BookDetails", "Book", new { bookId });
 
                     case (int)pageToRedirect.WishlistIndex:
-                        return RedirectToAction("Index", "Wishlist");
+                        return RedirectToAction("ListWishlist", "Wishlist");
 
                     case (int)pageToRedirect.CartIndex:
-                        return RedirectToAction("Index", "Cart");
+                        return RedirectToAction("ListCart", "Cart");
 
                     default:
                         return RedirectToAction("Index", "Home");
@@ -97,16 +97,16 @@ namespace Pops_bookshop.Controllers
                 switch (redirectTo)
                 {
                     case (int)pageToRedirect.BookIndex:
-                        return RedirectToAction("Index", "Book");
+                        return RedirectToAction("ListBooks", "Book");
 
                     case (int)pageToRedirect.BookDetails:
-                        return RedirectToAction("Details", "Book", new { bookId });
+                        return RedirectToAction("BookDetails", "Book", new { bookId });
 
                     case (int)pageToRedirect.WishlistIndex:
-                        return RedirectToAction("Index", "Wishlist");
+                        return RedirectToAction("ListWishlist", "Wishlist");
 
                     case (int)pageToRedirect.CartIndex:
-                        return RedirectToAction("Index", "Cart");
+                        return RedirectToAction("ListCart", "Cart");
 
                     default:
                         return RedirectToAction("Index", "Home");

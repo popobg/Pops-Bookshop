@@ -23,7 +23,7 @@ namespace Pops_bookshop.Controllers
         }
 
         // GET: BookController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> ListBooks()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Pops_bookshop.Controllers
         }
 
         // GET: BookController/Details/5
-        public async Task<ActionResult> Details(int bookId)
+        public async Task<ActionResult> BookDetails(int bookId)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Pops_bookshop.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListBooks));
             }
             catch
             {
@@ -96,7 +96,7 @@ namespace Pops_bookshop.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListBooks));
             }
             catch
             {
@@ -119,7 +119,7 @@ namespace Pops_bookshop.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListBooks));
             }
             catch
             {
