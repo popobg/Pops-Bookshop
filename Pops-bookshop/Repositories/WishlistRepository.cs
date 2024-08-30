@@ -23,6 +23,10 @@ namespace Pops_bookshop.Repositories
             {
                 List<Book> books = await _context.Books
                                 .Where(b => b.UsersWishlist.Any(w => w.UserId == userId))
+                                .Include(b => b.Authors)
+                                .Include(b => b.Categories)
+                                .Include(b => b.UsersWishlist)
+                                .Include(b => b.UsersCart)
                                 .ToListAsync();
 
                 return books;

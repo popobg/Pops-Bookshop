@@ -1,43 +1,36 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Pops_bookshop.Models.Entities
+﻿@using Pops_bookshop.Models.Entities
 @model Book
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-
 @{
-    bool isBookInCart()
-    {
-        return Model.UsersCart.Any(w => w.BookId == Model.Id);
-    }
+	bool isBookInCart()
+	{
+		return Model.UsersCart.Any(w => w.BookId == Model.Id);
+	}
 
-    int ToRedirect = (int)ViewBag.Redirection;
+	int ToRedirect = (int)ViewBag.Redirection;
 }
 
 @if (ToRedirect == 4)
 {
-    <h4>
-        <a class="btn delete-button material-symbols-outlined cart-btn" href="@Url.ActionLink("Remove", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">delete</a>
-        <span class="smaller-police">Remove from cart</span>
-    </h4>
+	<h4>
+		<a class="btn delete-button material-symbols-outlined cart-btn" href="@Url.ActionLink("Remove", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">delete</a>
+		<span class="smaller-police">Remove from cart</span>
+	</h4>
 }
 else
 {
-    @if (SignInManager.IsSignedIn(User))
-    {
-        @if (isBookInCart())
-        {
-            <h4>
-                <a class="btn delete-button material-symbols-outlined cart-btn" href="@Url.ActionLink("Remove", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">delete</a>
-                <span class="smaller-police">Remove from cart</span>
-            </h4>
-        }
-        else
-        {
-            <h4>
-                <a class="btn plus-button material-symbols-outlined d-inline-block cart-btn" href="@Url.ActionLink("Add", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">add</a>
-                <span class="smaller-police">Add to cart</span>
-            </h4>
-        }
-    }
+	@if (isBookInCart())
+	{
+		<h4>
+			<a class="btn delete-button material-symbols-outlined cart-btn" href="@Url.ActionLink("Remove", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">delete</a>
+			<span class="smaller-police">Remove from cart</span>
+		</h4>
+	}
+	else
+	{
+		<h4>
+			<a class="btn plus-button material-symbols-outlined d-inline-block cart-btn" href="@Url.ActionLink("Add", "Cart", new { bookId = Model.Id, redirectTo = ToRedirect })">add</a>
+			<span class="smaller-police">Add to cart</span>
+		</h4>
+	}
 }

@@ -5,22 +5,23 @@
     ViewData["Title"] = "Library";
 
     ViewBag.ToRedirect = 1;
+    ViewBag.NoDetails = false;
 }
 
-<h1>Books available</h1>
+<h1>Library</h1>
 <hr />
 
 <div class="search-zone">
     <h3>Search bar:</h3>
-    <input type="text" id="global-search-bar" placeholder="Retrieve books from its title, author or category" onkeyup="filterBooks()" />
+    <input type="search" id="global-search-bar" placeholder="Retrieve books from its title, author or category" aria-label="Search through the books list" onkeyup="filterBooks()" /><span></span>
 </div>
 
 @if (Model is not null && Model.Count() > 0)
 {
     foreach (Book book in Model)
     {
-        <hr class="separation-line" />
         <div class="book-item presentation-flex">
+            <hr class="separation-line" />
             <partial name="_BookDisplay" model="book" />
         </div>
     }

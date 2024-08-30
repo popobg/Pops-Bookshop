@@ -1,0 +1,15 @@
+﻿@media screen and (max-width: 767px) {
+    .responsive-container {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: initial;
+        overflow: scroll;
+    }
+
+    .full-width {
+        width:100%
+    }
+}

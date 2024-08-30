@@ -5,10 +5,12 @@
     ViewData["Title"] = "About " + Model.Title;
 
     ViewBag.ToRedirect = 2;
+    ViewBag.NoDetails = true;
 }
 
-<hr class="presentation-line" />
-<partial name="_BookDisplay" model="Model" />
+<div class="presentation-flex larger-margin">
+    <partial name="_BookDisplay" model="Model" />
+</div>
 
 <h3>Reviews</h3>
 @if (Model.Reviews != null && Model.Reviews.Count() > 0)

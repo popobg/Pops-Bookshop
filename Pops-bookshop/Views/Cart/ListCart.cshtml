@@ -5,6 +5,7 @@
     ViewData["Title"] = "My cart";
 
     ViewBag.ToRedirect = 4;
+    ViewBag.NoDetails = false;
 
     double totalPrice = 0;
 
@@ -20,8 +21,8 @@
 {
     foreach (Book book in Model)
     {
-        <hr class="separation-line" />
         <div class="presentation-flex">
+            <hr class="separation-line" />
             <partial name="_BookDisplay" model="book" />
         </div>
     }

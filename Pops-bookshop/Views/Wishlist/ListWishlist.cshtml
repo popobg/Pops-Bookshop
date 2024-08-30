@@ -5,6 +5,7 @@
     ViewData["Title"] = "My wishlist";
 
     ViewBag.ToRedirect = 3;
+    ViewBag.NoDetails = false;
 }
 
 <h1>My wishlist</h1>
@@ -13,8 +14,8 @@
 {
     foreach (Book book in Model)
     {
-        <hr class="separation-line" />
         <div class="presentation-flex">
+            <hr class="separation-line" />
             <partial name="_BookDisplay" model="book" />
         </div>
     }

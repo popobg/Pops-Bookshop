@@ -1,4 +1,17 @@
 ﻿.cart-btn {
-    border: gray solid medium;
+    border: #77c995 solid medium;
     margin: 0.5em 0;
 }
+
+    .cart-btn ~ span {
+        color: #77c995;
+        font-weight: 600;
+    }
+
+    .cart-btn.delete-button {
+        border: #f25546 solid medium;
+    }
+
+        .cart-btn.delete-button ~ span {
+            color: #f25546;
+        }

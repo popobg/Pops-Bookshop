@@ -2,6 +2,7 @@
 @import "navbar.css";
 @import "cart.css";
 @import "search-bar.css";
+@import "responsive.css";
 
 html {
   font-size: 14px;
@@ -24,10 +25,25 @@ html {
 
 body {
   margin-bottom: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction:column;
+}
+
+footer {
+    margin-top: auto;
+}
+
+a {
+    text-decoration: none;
 }
 
 .smaller-police {
     font-size: medium;
+}
+
+.larger-margin {
+    margin: 10em 1em;
 }
 
 .separation-line {

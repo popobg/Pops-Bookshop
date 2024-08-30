@@ -6,32 +6,35 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    bool isBookInWishList()
-    {
-        return Model.UsersWishlist.Any(w => w.BookId == Model.Id);
-    }
+	bool isBookInWishList()
+	{
+		return Model.UsersWishlist.Any(w => w.BookId == Model.Id);
+	}
 
-    int ToRedirect = (int)ViewBag.Redirection;
+	int ToRedirect = (int)ViewBag.Redirection;
 }
 
 @if (ToRedirect == 3)
 {
-    <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
-    <span>Remove from my wishlist</span>
+	<div>
+		<a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
+		<span>Remove from my wishlist</span>
+	</div>
 }
 else
 {
-    @if (SignInManager.IsSignedIn(User))
-    {
-        @if (isBookInWishList())
-        {
-            <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
-            <span>Remove from my wishlist</span>
-        }
-        else
-        {
-            <a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">favorite</a>
-            <span>Add to my wishlist</span>
-        }
-    }
+	@if (isBookInWishList())
+	{
+		<div>
+			<a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Remove", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">heart_check</a>
+			<span>Remove from my wishlist</span>
+		</div>
+	}
+	else
+	{
+		<div>
+			<a class="group-settings-button material-symbols-outlined d-inline-block" href="@Url.ActionLink("Add", "Wishlist", new { bookId = Model.Id, redirectTo = ToRedirect })">favorite</a>
+			<span>Add to my wishlist</span>
+		</div>
+	}
 }

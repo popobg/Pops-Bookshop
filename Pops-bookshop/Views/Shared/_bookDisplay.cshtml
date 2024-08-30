@@ -1,70 +1,102 @@
-﻿@using Pops_bookshop.Models.Entities
+﻿@using Microsoft.AspNetCore.Identity
+@using Pops_bookshop.Models.Entities
 @model Book
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
-    ViewBag.Redirection = ViewBag.ToRedirect;
+	ViewBag.Redirection = ViewBag.ToRedirect;
 }
 
-<div>
-    @await Html.PartialAsync("_WishedState", Model)
-    @await Html.PartialAsync("_CartState", Model)
+<div class="larger-div responsive-container">
+	@if (SignInManager.IsSignedIn(User))
+	{
+		<div class="full-width">
+			@await Html.PartialAsync("_WishedState", Model)
+			@await Html.PartialAsync("_CartState", Model)
+		</div>
+	}
 
-    <h2>
-        <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id })">
-            <span class="book-title">@Model.Title</span>
-            <span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
-        </a>
-    </h2>
-    <p>Description: @Model.Description</p>
-    <p>Price: @Model.Price€</p>
-    <p>ISBN: @Model.ISBN</p>
-    @if (Model.Authors is not null && Model.Authors.Count() > 0)
-    {
-        <p>
-            Authors:
-            @foreach (Author author in Model.Authors)
-            {
-                <span class="book-authors">@author.Name</span>
-                @if (!(author == Model.Authors.Last()))
-                {
-                    <span>,</span>
-                }
-            }
-        </p>
-    }
-    else
-    {
-        <p class="book-authors">No author given</p>
-    }
-    @if (Model.Categories is not null && Model.Categories.Count() > 0)
-    {
-        <p>
-            Categories:
-            @foreach (Category genre in Model.Categories)
-            {
-                <span class="book-categories">@genre.Name</span>
-                @if (!(genre == Model.Categories.Last()))
-                {
-                    <span>-</span>
-                }
-            }
-        </p>
-    }
-    else
-    {
-        <p class="book-categories">Category undefined</p>
-    }
+	<table class="table table-borderless bigger-table">
+		<tbody>
+			<tr>
+				<th scope="col" colspan="2">
+					@if (ViewBag.NoDetails)
+					{
+						<span class="book-title">@Model.Title</span>
+					}
+					else
+					{
+						<a href="@Url.ActionLink("BookDetails", "Book", new { bookId = Model.Id })">
+							<span class="book-title">@Model.Title</span>
+							<span class="group-settings-button material-symbols-outlined d-inline-block">info</span>
+						</a>
+					}
+				</th>
+			</tr>
+			<tr>
+				<th scope="row">Description</th>
+				<td>@Model.Description</td>
+			</tr>
+			<tr>
+				<th scope="row">Authors</th>
+				@if (Model.Authors is not null && Model.Authors.Count() > 0)
+				{
+					<td>
+						@foreach (Author author in Model.Authors)
+						{
+							<span class="book-authors">@author.Name</span>
+							@if (!(author == Model.Authors.Last()))
+							{
+								<span>,</span>
+							}
+						}
+					</td>
+				}
+				else
+				{
+					<td class="book-authors">No author given</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">Categories</th>
+				@if (Model.Categories is not null && Model.Categories.Count() > 0)
+				{
+					<td>
+						@foreach (Category genre in Model.Categories)
+						{
+							<span class="book-categories">@genre.Name</span>
+							@if (!(genre == Model.Categories.Last()))
+							{
+								<span>-</span>
+							}
+						}
+					</td>
+				}
+				else
+				{
+					<td class="book-categories">Category undefined</td>
+				}
+			</tr>
+			<tr>
+				<th scope="row">ISBN</th>
+				<td>@Model.ISBN</td>
+			</tr>
+		</tbody>
+	</table>
+	<p class="price-display">Price: @Model.Price$</p>
 </div>
 
 <div>
-    <a href="@Url.ActionLink("Details", "Book", new { bookId = Model.Id})">
-        @if (Model.CoverImageUrl != null)
-        {
-            <img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image" />
-        }
-        else
-        {
-            <img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image" />
-        }
-    </a>
+	<a href="@Url.ActionLink("BookDetails", "Book", new { bookId = Model.Id})">
+		@if (Model.CoverImageUrl != null)
+		{
+			<img src=@Model.CoverImageUrl alt="[book cover]" class="book-cover-image d-block mx-auto" />
+		}
+		else
+		{
+			<img src="~/images/book_cover.jpg" alt="[book cover]" class="book-cover-image d-block mx-auto" />
+		}
+	</a>
 </div>

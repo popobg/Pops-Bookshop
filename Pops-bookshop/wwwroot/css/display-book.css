@@ -8,8 +8,31 @@
     margin: 1em;
 }
 
+.larger-div {
+    width: 50%;
+    height: 100%;
+}
+
+.bigger-table {
+    width: 100%;
+}
+
+td, th {
+    padding: 1em;
+}
+
 .book-cover-image {
     border-radius: 10%;
     max-width: 20em;
     object-fit: cover;
+}
+
+.book-title {
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.price-display {
+    margin-left: 5em;
+    font-size: larger;
 }
